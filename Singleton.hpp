@@ -31,8 +31,8 @@
 
 class Uncopyable {
 protected:
-	Uncopyable() {};
-	~Uncopyable() {};
+	Uncopyable() = default;
+	~Uncopyable() = default;
 private:
 	Uncopyable(const Uncopyable& )=delete;
 	Uncopyable(const Uncopyable&&) = delete;
@@ -41,7 +41,7 @@ private:
 };
 
 template <typename T>
-class Singleton : public Uncopyable {
+class Singleton  {
 public:
 	template <typename... ArgTypes>
 	static T& getInstance(ArgTypes&&... args) {
@@ -52,6 +52,14 @@ public:
 
 		return *instance_.get();
 	}
+protected:
+	Singleton() = default;
+	~Singleton() = default;
+private:
+	Singleton(const Singleton&) = delete;
+	Singleton(const Singleton&&) = delete;
+	Singleton& operator=(const Singleton&) = delete;
+	Singleton& operator=(const Singleton&&) = delete;
 private:
 	static std::unique_ptr<T> instance_;
 };
